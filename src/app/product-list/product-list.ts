@@ -15,21 +15,21 @@ export class ProductList {
       name: 'Nike Air Max',
       price: 2000000,
       inStock: true,
-      image: 'https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/537ecfc3-8b48-4e42-9f39-746a5a2de31f/air-max-90-shoes.png'
+      image: 'https://dvauthentic.vn/wp-content/uploads/2020/12/06-03.jpg'
     },
     {
       id: 2,
       name: 'Adidas UltraBoost',
       price: 2500000,
       inStock: false,
-      image: 'https://assets.adidas.com/images/w_600,f_auto,q_auto/17c5fe3454474036b4fcaf6d00a04bb1_9366/Ultraboost_1.0_Shoes_White_GX3408_01_standard.jpg'
+      image: 'https://dvauthentic.vn/wp-content/uploads/2020/12/06-03.jpg'
     },
     {
       id: 3,
       name: 'Converse Classic',
       price: 900000,
       inStock: true,
-      image: 'https://www.converse.com/on/demandware.static/-/Sites-converse-master-catalog/default/dw8f9e556d/images/a_107/1U647C_A_107X1.jpg'
+      image: 'https://dvauthentic.vn/wp-content/uploads/2020/12/06-03.jpg'
     },
   ];
 
