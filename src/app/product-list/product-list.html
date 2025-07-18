@@ -1,28 +1,41 @@
-<h2>Product List</h2>
-<input [(ngModel)]="filterText" placeholder="Filter by name" />
-<div *ngIf="filterProducts().length > 0; else noProducts">
-  <table>
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Price</th>
-        <th>Status</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let product of filterProducts()">
-        <td>{{ product.id }}</td>
-        <!-- LAPTOP -->
-        <td>{{ product.name | uppercase }}</td>
-        <td>{{ product.price | currency : "VND" }}</td>
-        <td [ngStyle]="{ color: product.inStock ? 'green' : 'red' }">
-          {{ product.inStock ? "In Stock" : "Out of Stock" }}
-        </td>
-      </tr>
-    </tbody>
-  </table>
+<!-- src/app/product-list/product-list.html -->
+<div class="container mt-4">
+  <h2 class="text-center mb-4">Danh sách giày</h2>
+
+  <div class="row mb-3">
+    <div class="col-md-6 offset-md-3">
+      <input type="text" [(ngModel)]="filterText" class="form-control" placeholder="Lọc theo tên giày..." />
+    </div>
+  </div>
+
+  <div *ngIf="filterProducts().length > 0; else noProducts">
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover text-center align-middle">
+        <thead class="table-dark">
+          <tr>
+            <th>Hình ảnh</th>
+            <th>Tên sản phẩm</th>
+            <th>Giá</th>
+            <th>Tình trạng</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let product of filterProducts()">
+            <td>
+              <img [src]="product.image" alt="{{ product.name }}" class="product-image" width="120px" height="auto" />
+            </td>
+            <td class="fw-bold text-uppercase">{{ product.name }}</td>
+            <td>{{ product.price | currency: 'VND' }}</td>
+            <td [ngStyle]="{ color: product.inStock ? 'green' : 'red' }">
+              {{ product.inStock ? 'Còn hàng' : 'Hết hàng' }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <ng-template #noProducts>
+    <p class="text-center text-danger">Không có sản phẩm nào phù hợp.</p>
+  </ng-template>
 </div>
-<ng-template #noProducts>
-  <p>No products match the filter.</p>
-</ng-template>
