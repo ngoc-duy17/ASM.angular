@@ -1,30 +1,27 @@
-<!-- src/app/product-list/product-list.html -->
 <div class="container mt-4">
   <h2 class="text-center mb-4">Danh sách giày</h2>
-
-  <div class="row mb-3">
-    <div class="col-md-6 offset-md-3">
-      <input type="text" [(ngModel)]="filterText" class="form-control" placeholder="Lọc theo tên giày..." />
-    </div>
-  </div>
 
   <div *ngIf="filterProducts().length > 0; else noProducts">
     <div class="table-responsive">
       <table class="table table-bordered table-hover text-center align-middle">
         <thead class="table-dark">
           <tr>
-            <th>Hình ảnh</th>
-            <th>Tên sản phẩm</th>
-            <th>Giá</th>
-            <th>Tình trạng</th>
+            <th style="width: 25%">Tên sản phẩm</th>
+            <th style="width: 25%">Hình ảnh</th>
+            <th style="width: 25%">Giá</th>
+            <th style="width: 25%">Tình trạng</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let product of filterProducts()">
-            <td>
-              <img [src]="product.image" alt="{{ product.name }}" class="product-image" width="120px" height="auto" />
+            <td class="fw-bold text-uppercase" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
+              [title]="product.name">
+              {{ product.name }}
             </td>
-            <td class="fw-bold text-uppercase">{{ product.name }}</td>
+            <td>
+              <img [src]="product.image" alt="{{ product.name }}" class="product-image"
+                style="width: 100px; height: auto;" />
+            </td>
             <td>{{ product.price | currency: 'VND' }}</td>
             <td [ngStyle]="{ color: product.inStock ? 'green' : 'red' }">
               {{ product.inStock ? 'Còn hàng' : 'Hết hàng' }}
