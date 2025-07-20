@@ -1,15 +1,15 @@
 {
   "products": [
     {
-      "id": 0,
-      "name": "fffff",
+      "id": "1",
+      "name": "aaaaaaaaaaaa",
       "imageUrl": "https://randomuser.me/api/portraits/men/32.jpg",
       "price": 5000000,
       "category": "",
-      "inStock": true
+      "inStock": "false"
     },
     {
-      "id": 0,
+      "id": "2",
       "name": "fffff",
       "imageUrl": "https://product.hstatic.net/200000690725/product/19334a78-6cbb-4bbb-abeb-31088b5578ff_ea4d8d95d7fe424297ad95179a26f18b_master.jpg",
       "price": 1,

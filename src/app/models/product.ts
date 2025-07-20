@@ -4,5 +4,6 @@ export interface Product {
   price: number;
   imageUrl: string;
   category: string;
-  inStock?: boolean; // nếu có field này từ server
+  inStock?: boolean;
+  quantity?: number; // nếu có field này từ server
 }

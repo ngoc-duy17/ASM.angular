@@ -1,51 +1,61 @@
-<div class="container mt-4">
-  <h2 class="text-center mb-4">Thêm sản phẩm mới</h2>
-  <form (ngSubmit)="onSubmit()" #productForm="ngForm" class="needs-validation" novalidate>
-    <div class="mb-3">
-      <label for="name" class="form-label">Tên giày</label>
-      <input type="text" class="form-control" id="name" [(ngModel)]="product.name" name="name" required
-        [ngClass]="{'is-invalid': name.invalid && (name.dirty || name.touched)}" #name="ngModel" />
-      <div class="invalid-feedback">
-        Vui lòng nhập tên giày.
-      </div>
+<div class="container py-4">
+  <div class="card shadow rounded">
+    <div class="card-header bg-primary text-white text-center">
+      <h3 class="mb-0">Thêm sản phẩm mới</h3>
     </div>
+    <div class="card-body">
+      <form (ngSubmit)="onSubmit()" #productForm="ngForm" class="needs-validation" novalidate>
 
-    <div class="mb-3">
-      <label for="imageUrl" class="form-label">URL hình ảnh</label>
-      <!-- Thay image → imageUrl -->
-      <input type="url" class="form-control" id="imageUrl" [(ngModel)]="product.imageUrl" name="imageUrl" required
-        [ngClass]="{'is-invalid': imageUrl.invalid && (imageUrl.dirty || imageUrl.touched)}" #imageUrl="ngModel" />
+        <!-- Tên giày -->
+        <div class="mb-3">
+          <label for="name" class="form-label fw-semibold">Tên giày</label>
+          <input type="text" class="form-control" id="name" [(ngModel)]="product.name" name="name" required
+            [ngClass]="{'is-invalid': name.invalid && (name.dirty || name.touched)}" #name="ngModel"
+            placeholder="Nhập tên sản phẩm" />
+          <div class="invalid-feedback">Vui lòng nhập tên giày.</div>
+        </div>
 
+        <!-- Hình ảnh -->
+        <div class="mb-3">
+          <label for="imageUrl" class="form-label fw-semibold">URL hình ảnh</label>
+          <input type="url" class="form-control" id="imageUrl" [(ngModel)]="product.imageUrl" name="imageUrl" required
+            [ngClass]="{'is-invalid': imageUrl.invalid && (imageUrl.dirty || imageUrl.touched)}" #imageUrl="ngModel"
+            placeholder="https://example.com/shoe.jpg" />
+          <div class="invalid-feedback">Vui lòng nhập URL hình ảnh hợp lệ.</div>
+        </div>
 
-      <div class="invalid-feedback">
-        Vui lòng nhập URL hình ảnh hợp lệ.
-      </div>
+        <!-- Giá -->
+        <div class="mb-3">
+          <label for="price" class="form-label fw-semibold">Giá (VND)</label>
+          <input type="number" class="form-control" id="price" [(ngModel)]="product.price" name="price" required min="0"
+            [ngClass]="{'is-invalid': price.invalid && (price.dirty || price.touched)}" #price="ngModel"
+            placeholder="Nhập giá sản phẩm" />
+          <div class="invalid-feedback">Vui lòng nhập giá hợp lệ (số không âm).</div>
+        </div>
+
+        <!-- Trạng thái -->
+        <div class="mb-3">
+          <label for="inStock" class="form-label fw-semibold">Trạng thái</label>
+          <select class="form-select" id="inStock" [(ngModel)]="product.inStock" name="inStock" required
+            [ngClass]="{'is-invalid': inStock.invalid && (inStock.dirty || inStock.touched)}" #inStock="ngModel">
+            <option value="">-- Chọn trạng thái --</option>
+            <option value="true">Còn hàng</option>
+            <option value="false">Hết hàng</option>
+          </select>
+          <div class="invalid-feedback">Vui lòng chọn trạng thái.</div>
+        </div>
+
+        <!-- Nút -->
+        <div class="d-flex justify-content-center pt-2">
+          <button type="submit" class="btn btn-success me-2 px-4" [disabled]="productForm.invalid">
+            <i class="bi bi-plus-circle me-1"></i> Thêm sản phẩm
+          </button>
+          <button type="button" class="btn btn-outline-secondary px-4" (click)="resetForm()">
+            Hủy
+          </button>
+        </div>
+
+      </form>
     </div>
-
-    <div class="mb-3">
-      <label for="price" class="form-label">Giá (VND)</label>
-      <input type="number" class="form-control" id="price" [(ngModel)]="product.price" name="price" required min="0"
-        [ngClass]="{'is-invalid': price.invalid && (price.dirty || price.touched)}" #price="ngModel" />
-      <div class="invalid-feedback">
-        Vui lòng nhập giá hợp lệ (số không âm).
-      </div>
-    </div>
-
-    <div class="mb-3">
-      <label for="inStock" class="form-label">Trạng thái</label>
-      <select class="form-select" id="inStock" [(ngModel)]="product.inStock" name="inStock" required
-        [ngClass]="{'is-invalid': inStock.invalid && (inStock.dirty || inStock.touched)}" #inStock="ngModel">
-        <option value="true">Còn hàng</option>
-        <option value="false">Hết hàng</option>
-      </select>
-      <div class="invalid-feedback">
-        Vui lòng chọn trạng thái.
-      </div>
-    </div>
-
-    <div class="text-center">
-      <button type="submit" class="btn btn-primary me-2" [disabled]="productForm.invalid">Thêm sản phẩm</button>
-      <button type="button" class="btn btn-secondary" (click)="resetForm()">Hủy</button>
-    </div>
-  </form>
+  </div>
 </div>

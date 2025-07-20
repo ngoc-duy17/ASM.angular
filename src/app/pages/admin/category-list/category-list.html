@@ -1,18 +1,24 @@
-<h2>Category List</h2>
+<div class="container mt-4">
+  <h2 class="text-center mb-4 fw-bold text-primary">📂 Danh sách danh mục</h2>
 
-<table>
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Name</th>
-    </tr>
-  </thead>
-  <tbody>
-    <!-- ngFor (@for) -->
-    <tr *ngFor="let category of categories">
-      <!-- data binding Interpolation ({{ }}): Hiển thị dữ liệu từ component. {{ data }} -->
-      <td>{{ category.id }}</td>
-      <td>{{ category.name }}</td>
-    </tr>
-  </tbody>
-</table>
+  <div class="table-responsive">
+    <table class="table table-hover table-bordered shadow-sm">
+      <thead class="table-primary text-center">
+        <tr>
+          <th style="width: 80px;">#ID</th>
+          <th>Tên danh mục</th>
+        </tr>
+      </thead>
+      <tbody class="align-middle">
+        <tr *ngFor="let category of categories">
+          <td class="text-center fw-semibold text-secondary">{{ category.id }}</td>
+          <td class="text-dark">{{ category.name }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="categories.length === 0" class="alert alert-warning text-center mt-4">
+    Không có danh mục nào để hiển thị.
+  </div>
+</div>
