@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
-import { ProductList } from './pages/product-list/product-list';
+import { ProductList } from './pages/admin/product-list/product-list';
+import { ProductAdd } from './pages/admin/product-add/product-add';
+import { CategoryList } from './pages/admin/category-list/category-list';
 
-import { CategoryList } from './pages/category-list/category-list';
-import { ProductAdd } from './pages/product-add/product-add';
 
 
 export const routes: Routes = [
@@ -16,6 +16,10 @@ export const routes: Routes = [
   },
   {
     path: 'products/add',
+    component: ProductAdd,
+  },
+  {
+    path: 'products/edit/:id',
     component: ProductAdd,
   },
 
