@@ -1,1 +1,42 @@
-<p>product-detail works!</p>
+<section class="product-detail-section container my-5">
+  <div class="text-center mb-4">
+    <h2 class="fw-bold text-primary">Chi tiết sản phẩm</h2>
+    <p class="text-muted">Khám phá thông tin sản phẩm chất lượng của chúng tôi</p>
+  </div>
+
+  <div *ngIf="product" class="row bg-white shadow-lg rounded-4 overflow-hidden">
+    <!-- Ảnh sản phẩm -->
+    <div class="col-lg-6 p-0">
+      <div class="product-image-container">
+        <img [src]="product.imageUrl" class="img-fluid w-100" [alt]="product.name">
+      </div>
+    </div>
+
+    <!-- Thông tin sản phẩm -->
+    <div class="col-lg-6 p-4 d-flex flex-column">
+      <h3 class="fw-bold text-dark mb-3">{{ product.name }}</h3>
+
+      <div class="price-box mb-4">
+        <span class="fs-4 text-danger fw-bold">
+          {{ product.price | currency:'VND':'symbol':'1.0-0' }}
+        </span>
+      </div>
+
+      <p class="text-secondary mb-4">{{ product.description }}</p>
+
+      <div class="mt-auto">
+        <div class="d-flex gap-3">
+          <button class="btn btn-success btn-lg flex-fill">
+            <i class="bi bi-bag-check"></i> Mua ngay
+          </button>
+          <button class="btn btn-warning btn-lg flex-fill" (click)="addToCart(product)">
+            <i class="bi bi-cart-plus"></i> Thêm vào giỏ
+          </button>
+        </div>
+        <a routerLink="/products" class="btn btn-link text-decoration-none mt-3 d-block text-center">
+          <i class="bi bi-arrow-left"></i> Quay lại danh sách
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

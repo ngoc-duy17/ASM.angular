@@ -28,7 +28,8 @@ export class ProductAdd {
       next: (res) => {
         alert('Sản phẩm đã được thêm!');
         this.resetForm();
-        this.router.navigate(['/products']);
+        this.router.navigate(['/admin/products']);
+
       },
       error: (err) => {
         console.error('Lỗi khi thêm sản phẩm:', err);

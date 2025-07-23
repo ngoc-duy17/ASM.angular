@@ -2,10 +2,12 @@ import { Component } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { Sidebar } from './sidebar/sidebar';
 import { HttpClientModule } from '@angular/common/http';
+import { Header } from './components/header/header';
+import { Footer } from './components/footer/footer';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Sidebar],
+  imports: [RouterOutlet, Sidebar, Header, Footer],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })

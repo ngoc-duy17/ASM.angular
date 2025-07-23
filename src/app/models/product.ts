@@ -6,4 +6,5 @@ export interface Product {
   category: string;
   inStock?: boolean;
   quantity?: number; // nếu có field này từ server
+  description?: string;
 }

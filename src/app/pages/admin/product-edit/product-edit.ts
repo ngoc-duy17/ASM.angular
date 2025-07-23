@@ -46,7 +46,7 @@ export class ProductEdit {
     this.http.put<Product>(`http://localhost:3000/products/${this.product.id}`, this.product).subscribe({
       next: () => {
         alert('Sản phẩm đã được cập nhật!');
-        this.router.navigate(['/products']);
+        this.router.navigate(['/admin/products']);
       },
       error: (err) => {
         console.error('Lỗi khi cập nhật sản phẩm:', err);

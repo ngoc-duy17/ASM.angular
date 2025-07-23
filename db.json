@@ -1,28 +1,28 @@
 {
   "products": [
     {
-      "id": 1,
-      "name": "Nguyễn Ngọc Duy",
+      "id": "5276",
+      "name": "ngoczuyy",
       "imageUrl": "https://randomuser.me/api/portraits/men/32.jpg",
-      "price": 2,
+      "price": 5,
       "category": "",
       "inStock": true
     },
     {
-      "id": 2,
-      "name": "Nguyễn Ngọc Duy",
+      "id": "d65c",
+      "name": "abc",
       "imageUrl": "https://randomuser.me/api/portraits/men/32.jpg",
-      "price": 2,
-      "category": "",
-      "inStock": true
-    },
-    {
-      "id": "6770",
-      "name": "fffff",
-      "imageUrl": "https://randomuser.me/api/portraits/men/32.jpg",
-      "price": 6,
+      "price": 5000000,
       "category": "",
       "inStock": "false"
+    },
+    {
+      "id": "2d91",
+      "name": "bbb",
+      "imageUrl": "https://randomuser.me/api/portraits/men/32.jpg",
+      "price": 12300000,
+      "category": "",
+      "inStock": "true"
     }
   ],
   "categories": [
