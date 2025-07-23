@@ -20,9 +20,9 @@ export const routes: Routes = [
   { path: 'categories', component: CategoryList, },
   { path: 'products/:id/detail', component: Detail },
   // client
-  { path: '', component: Home, },
-  { path: 'product/:id', component: ProductDetail, },
-  { path: 'products/add', component: ProductAdd, },
-  { path: 'login', component: Login, },
-  { path: 'register', component: Register, },
+  // { path: '', component: Home, },
+  // { path: 'product/:id', component: ProductDetail, },
+  // { path: 'products/add', component: ProductAdd, },
+  // { path: 'login', component: Login, },
+  // { path: 'register', component: Register, },
 ];

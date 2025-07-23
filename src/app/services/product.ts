@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Product } from '../models/product';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class ProductService {
@@ -10,23 +11,29 @@ export class ProductService {
   constructor(private http: HttpClient) { }
 
   getAll(): Observable<Product[]> {
-    return this.http.get<Product[]>(this.api);
+    return this.http.get<Product[]>(this.api).pipe(catchError(this.handleError));
   }
 
   getById(id: number): Observable<Product> {
-    return this.http.get<Product>(`${this.api}/${id}`);
+    return this.http.get<Product>(`${this.api}/${id}`).pipe(
+      map(product => ({ ...product, id: +product.id })) // ép id về number
+    );
   }
 
   create(product: Product): Observable<Product> {
-    return this.http.post<Product>(this.api, product);
+    return this.http.post<Product>(this.api, product).pipe(catchError(this.handleError));
   }
 
   update(product: Product): Observable<Product> {
-    return this.http.put<Product>(`${this.api}/${product.id}`, product);
+    return this.http.put<Product>(`${this.api}/${product.id}`, product).pipe(catchError(this.handleError));
   }
 
   delete(id: number): Observable<any> {
-    return this.http.delete(`${this.api}/${id}`);
+    return this.http.delete(`${this.api}/${id}`).pipe(catchError(this.handleError));
   }
 
+  private handleError(error: HttpErrorResponse) {
+    console.error('API Error:', error);
+    return throwError(() => new Error('Có lỗi xảy ra. Vui lòng thử lại sau!'));
+  }
 }

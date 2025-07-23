@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { Sidebar } from './sidebar/sidebar';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',

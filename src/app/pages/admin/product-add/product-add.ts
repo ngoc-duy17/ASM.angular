@@ -13,8 +13,8 @@ import { Router } from '@angular/router';
 })
 export class ProductAdd {
   constructor(private http: HttpClient, private router: Router) { }
-  product: Product = {
-    id: 0,
+
+  product: Omit<Product, 'id'> = {
     name: '',
     imageUrl: '',
     price: 0,
@@ -23,8 +23,9 @@ export class ProductAdd {
   };
 
   onSubmit() {
-    if (this.product.name && this.product.imageUrl && this.product.price >= 0) {
-      const newProduct = { ...this.product };
+    this.http.get<Product[]>('http://localhost:3000/products').subscribe(products => {
+      const maxId = Math.max(...products.map(p => +p.id || 0));
+      const newProduct = { ...this.product, id: maxId + 1 };
 
       this.http.post<Product>('http://localhost:3000/products', newProduct).subscribe({
         next: () => {
@@ -37,12 +38,13 @@ export class ProductAdd {
           alert('Không thể thêm sản phẩm. Vui lòng thử lại.');
         }
       });
-    }
+    });
   }
+
+
 
   resetForm() {
     this.product = {
-      id: 0,
       name: '',
       imageUrl: '',
       price: 0,

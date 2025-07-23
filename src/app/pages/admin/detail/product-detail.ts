@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Product } from '../../../models/product';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from '../../../services/product';
 import { CommonModule } from '@angular/common';
 
@@ -16,11 +16,19 @@ export class Detail implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private productService: ProductService
   ) { }
 
   ngOnInit(): void {
-    this.productId = Number(this.route.snapshot.paramMap.get('id'));
+    const idParam = this.route.snapshot.paramMap.get('id');
+    if (!idParam || isNaN(+idParam)) {
+      alert('ID sản phẩm không hợp lệ!');
+      this.router.navigate(['/products']); // hoặc trang khác
+      return;
+    }
+
+    this.productId = +idParam;
     this.loadProductDetail();
   }
 
