@@ -23,21 +23,17 @@ export class ProductAdd {
   };
 
   onSubmit() {
-    this.http.get<Product[]>('http://localhost:3000/products').subscribe(products => {
-      const maxId = Math.max(...products.map(p => +p.id || 0));
-      const newProduct = { ...this.product, id: maxId + 1 };
 
-      this.http.post<Product>('http://localhost:3000/products', newProduct).subscribe({
-        next: () => {
-          alert('Sản phẩm đã được thêm!');
-          this.resetForm();
-          this.router.navigate(['/products']);
-        },
-        error: (err) => {
-          console.error('Lỗi khi thêm sản phẩm:', err);
-          alert('Không thể thêm sản phẩm. Vui lòng thử lại.');
-        }
-      });
+    this.http.post<Product>('http://localhost:3000/products', this.product).subscribe({
+      next: (res) => {
+        alert('Sản phẩm đã được thêm!');
+        this.resetForm();
+        this.router.navigate(['/products']);
+      },
+      error: (err) => {
+        console.error('Lỗi khi thêm sản phẩm:', err);
+        alert('Không thể thêm sản phẩm. Vui lòng thử lại.');
+      }
     });
   }
 
