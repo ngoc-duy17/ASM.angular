@@ -1,4 +1,5 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+
   <div class="container">
     <!-- Logo -->
     <a class="navbar-brand fw-bold" routerLink="/">My Shop</a>
@@ -12,21 +13,51 @@
     <!-- Menu -->
     <div class="collapse navbar-collapse" id="mainNavbar">
       <ul class="navbar-nav ms-auto">
+        <!-- Menu chính -->
         <li class="nav-item">
           <a routerLink="/" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-            <i class="bi bi-house-door"></i> Home
+            <i class="bi bi-house-door"></i> Trang Chủ
           </a>
         </li>
         <li class="nav-item">
           <a routerLink="/products" class="nav-link" routerLinkActive="active">
-            <i class="bi bi-box-seam"></i> Products
+            <i class="bi bi-box-seam"></i> Sản phẩm
           </a>
         </li>
         <li class="nav-item">
           <a routerLink="/cart" class="nav-link" routerLinkActive="active">
-            <i class="bi bi-cart"></i> Cart
+            <i class="bi bi-cart"></i> Giỏ hàng
           </a>
         </li>
+
+        <!-- Nếu đã đăng nhập -->
+        <ng-container *ngIf="auth.isLoggedIn(); else guestLinks">
+          <li class="nav-item dropdown" [class.show]="dropdownOpen" (mouseenter)="dropdownOpen = true"
+            (mouseleave)="dropdownOpen = false">
+            <a class="nav-link dropdown-toggle" href="#" role="button">
+              Xin chào, {{ currentUserEmail }}
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" [class.show]="dropdownOpen">
+              <li>
+                <button type="button" class="dropdown-item text-danger" (click)="logout()">Đăng xuất</button>
+              </li>
+            </ul>
+          </li>
+        </ng-container>
+
+        <!-- Nếu chưa đăng nhập -->
+        <ng-template #guestLinks>
+          <li class="nav-item">
+            <a routerLink="/login" class="nav-link" routerLinkActive="active">
+              <i class="bi bi-box-arrow-in-right"></i> Đăng nhập
+            </a>
+          </li>
+          <li class="nav-item">
+            <a routerLink="/register" class="nav-link" routerLinkActive="active">
+              <i class="bi bi-person-plus"></i> Đăng ký
+            </a>
+          </li>
+        </ng-template>
       </ul>
     </div>
   </div>

@@ -4,10 +4,11 @@ import { Sidebar } from './sidebar/sidebar';
 import { HttpClientModule } from '@angular/common/http';
 import { Header } from './components/header/header';
 import { Footer } from './components/footer/footer';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Sidebar, Header, Footer],
+  imports: [RouterOutlet, Sidebar, Header, Footer, CommonModule],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })

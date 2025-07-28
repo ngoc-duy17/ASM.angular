@@ -1,21 +1,10 @@
-.navbar-brand {
-  font-size: 1.5rem;
-  letter-spacing: 1px;
+/* Hiển thị dropdown khi hover */
+.hover-dropdown:hover .show-on-hover {
+  display: block;
 }
 
-.nav-link {
-  font-size: 1rem;
-  font-weight: 500;
-  transition: color 0.3s;
-}
-
-.nav-link:hover {
-  color: #ffc107;
-  /* Vàng khi hover */
-}
-
-.nav-link.active {
-  color: #fff;
-  font-weight: 600;
-  border-bottom: 2px solid #ffc107;
+.hover-dropdown .dropdown-menu {
+  display: none;
+  margin-top: 0.5rem;
+  transition: all 0.2s ease-in-out;
 }

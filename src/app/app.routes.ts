@@ -9,35 +9,27 @@ import { ProductAdd } from './pages/admin/product-add/product-add';
 import { ProductDetail } from './pages/Client/product-detail/product-detail';
 import { ProductEdit } from './pages/admin/product-edit/product-edit';
 import { CategoryList } from './pages/admin/category-list/category-list';
-// import { ProductList } from './pages/admin/product-list/product-list';
-// import { ProductAdd } from './pages/admin/product-add/product-add';
-// import { CategoryList } from './pages/admin/category-list/category-list';
-// import { ProductEdit } from './pages/admin/product-edit/product-edit';
-
-
-// import { Detail } from './pages/admin/detail/product-detail';
-// import { Home } from './pages/Client/home/home';
-// import { List } from './pages/Client/list/list';
+import { Auth } from './layouts/auth/auth';
+import { Login } from './pages/Client/login/login';
+import { Register } from './pages/Client/register/register';
 
 export const routes: Routes = [
-  // // admin
-  // { path: 'admin', component: ProductList },
-  // { path: 'admin/products', component: ProductList },
-  // { path: 'admin/products/add', component: ProductAdd },
-  // { path: 'admin/products/:id/edit', component: ProductEdit },
-  // { path: 'admin/categories', component: CategoryList },
-  // { path: 'admin/products/:id/detail', component: Detail },
-  // // client
-  // { path: '', component: Home }, // trang chủ hiển thị danh sách sản phẩm
-  // { path: 'products', component: List },
-  // { path: 'product/:id', component: Detail },
   {
     path: '',
     component: ClientLayout,
     children: [
       { path: '', component: Home },
       { path: 'products', component: List },
-      { path: 'product/:id', component: ProductDetail }
+      { path: 'product/:id', component: ProductDetail },
+
+    ]
+  },
+  {
+    path: '',
+    component: Auth,
+    children: [
+      { path: 'login', component: Login },
+      { path: 'register', component: Register }
     ]
   },
   {
