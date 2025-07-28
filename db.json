@@ -48,9 +48,9 @@
   "users": [
     {
       "id": "fe04",
-      "email": "bbc@gmail.com",
+      "email": "admin@gmail.com",
       "password": "12345",
-      "role": "client"
+      "role": "admin"
     },
     {
       "id": "8ba2",

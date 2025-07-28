@@ -28,7 +28,7 @@ export class Register {
     this.auth.register({ email: this.email, password: this.password, role: this.role })
       .subscribe(success => {
         if (success) {
-          alert('✅ Đăng ký thành công');
+          alert('Đăng ký thành công');
           this.router.navigate(['/login']);
         } else {
           alert('❌ Email đã tồn tại');

@@ -20,17 +20,21 @@ export class Login {
   onLogin() {
     this.auth.login(this.email, this.password).subscribe(success => {
       if (success) {
-        alert('Đăng nhập thành công');
         const user = this.auth.getCurrentUser();
+
         if (user?.role === 'admin') {
-          this.router.navigate(['/admin']);
+          this.router.navigate(['/admin']);  // ✅ điều hướng admin
+        } else if (user?.role === 'client') {
+          this.router.navigate(['/']); // ✅ điều hướng client
         } else {
-          this.router.navigate(['/']);
+          alert('❌ Không xác định vai trò người dùng');
+          this.auth.logout();
         }
       } else {
         alert('Email hoặc mật khẩu không đúng');
       }
     });
   }
+
 
 }

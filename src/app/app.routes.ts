@@ -10,13 +10,16 @@ import { ProductDetail } from './pages/Client/product-detail/product-detail';
 import { ProductEdit } from './pages/admin/product-edit/product-edit';
 import { CategoryList } from './pages/admin/category-list/category-list';
 import { Auth } from './layouts/auth/auth';
-import { Login } from './pages/Client/login/login';
-import { Register } from './pages/Client/register/register';
+import { Login } from './pages/auth/login/login';
+import { Register } from './pages/auth/register/register';
+import { ClientGuard } from './router/client.guard';
+import { AdminGuard } from './router/admin.router';
 
 export const routes: Routes = [
   {
     path: '',
     component: ClientLayout,
+    canActivate: [ClientGuard],
     children: [
       { path: '', component: Home },
       { path: 'products', component: List },
@@ -35,12 +38,15 @@ export const routes: Routes = [
   {
     path: 'admin',
     component: AdminLayout,
+    canActivate: [AdminGuard],
     children: [
       { path: 'products', component: ProductList },
       { path: 'products/add', component: ProductAdd },
       { path: 'products/:id/edit', component: ProductEdit },
       { path: 'categories', component: CategoryList },
       { path: 'products/:id/detail', component: Detail },
+      { path: 'login', component: Login },
+      { path: 'register', component: Register },
     ]
   }
 ]
