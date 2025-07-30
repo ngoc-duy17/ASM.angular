@@ -47,16 +47,16 @@
   ],
   "users": [
     {
-      "id": "fe04",
       "email": "admin@gmail.com",
-      "password": "12345",
-      "role": "admin"
+      "password": "123456",
+      "role": "admin",
+      "id": 1
     },
     {
-      "id": "8ba2",
-      "email": "duy@gmail.com",
-      "password": "123",
-      "role": "client"
+      "email": "client@gmail.com",
+      "password": "123456",
+      "role": "client",
+      "id": 2
     }
   ]
 }

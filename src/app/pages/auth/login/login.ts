@@ -21,11 +21,10 @@ export class Login {
     this.auth.login(this.email, this.password).subscribe(success => {
       if (success) {
         const user = this.auth.getCurrentUser();
-
         if (user?.role === 'admin') {
-          this.router.navigate(['/admin']);  // ✅ điều hướng admin
+          this.router.navigate(['/admin/products']);
         } else if (user?.role === 'client') {
-          this.router.navigate(['/']); // ✅ điều hướng client
+          this.router.navigate(['/']);
         } else {
           alert('❌ Không xác định vai trò người dùng');
           this.auth.logout();
@@ -35,6 +34,7 @@ export class Login {
       }
     });
   }
+
 
 
 }

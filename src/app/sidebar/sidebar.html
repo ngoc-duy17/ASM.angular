@@ -1,7 +1,17 @@
 <div class="d-flex">
-  <!-- Sidebar cố định -->
   <div class="bg-dark text-white p-3 sidebar" style="width: 250px; min-height: 100vh">
     <h4>Menu</h4>
+
+    <div *ngIf="user; else guest">
+      <p>👋 Xin chào, <strong>{{ user.email }}</strong></p>
+      <button class="btn btn-sm btn-light mb-3" (click)="logout()">Đăng xuất</button>
+    </div>
+
+    <ng-template #guest>
+      <p>🔐 Bạn chưa đăng nhập</p>
+      <a class="btn btn-sm btn-light mb-3" routerLink="/admin/login">Đăng nhập</a>
+    </ng-template>
+
     <ul class="nav flex-column">
       <li class="nav-item">
         <a class="nav-link text-white" routerLink="/dashboard">Dashboard</a>
@@ -10,19 +20,13 @@
         <a class="nav-link text-white" routerLink="/admin/products">Products</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link text-white" routerLink="/admin/products/add">Products Add</a>
+        <a class="nav-link text-white" routerLink="/admin/products/add">Add Product</a>
       </li>
       <li class="nav-item">
         <a class="nav-link text-white" routerLink="/admin/categories">Categories</a>
       </li>
       <li class="nav-item">
         <a class="nav-link text-white" routerLink="/admin/orders">Orders</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-white" routerLink="/admin/login">Login</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-white" routerLink="/admin/register">Register</a>
       </li>
     </ul>
   </div>

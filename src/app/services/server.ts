@@ -1,56 +1,60 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
-import { Observable, of, switchMap, map } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { tap, catchError, map } from 'rxjs/operators';
 
-interface User {
-  id?: number;
-  email: string;
-  password: string;
-  role: 'client' | 'admin';
-}
+const API = 'http://localhost:3000';
+const TOKEN_KEY = 'token';
+const USER_KEY = 'user';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private apiUrl = 'http://localhost:3000/users';
-  private LOGGED_USER_KEY = 'loggedInUser';
+  constructor(private http: HttpClient) { }
+  private currentUserSubject = new BehaviorSubject<any>(this.getCurrentUser());
+  currentUser$ = this.currentUserSubject.asObservable(); // <-- component khác có thể subscribe
 
-  constructor(private http: HttpClient, private router: Router) { }
 
-  register(user: User): Observable<boolean> {
-    return this.http.get<User[]>(`${this.apiUrl}?email=${user.email}`).pipe(
-      switchMap(users => {
-        if (users.length > 0) {
-          return of(false); // Email đã tồn tại
-        }
-        return this.http.post<User>(this.apiUrl, user).pipe(map(() => true));
-      })
-    );
+  register(userData: any): Observable<any> {
+    return this.http.post(`${API}/register`, userData);
   }
 
   login(email: string, password: string): Observable<boolean> {
-    return this.http.get<User[]>(`${this.apiUrl}?email=${email}&password=${password}`).pipe(
+    return this.http.get<any[]>(`${API}/users?email=${email}&password=${password}`).pipe(
       map(users => {
-        if (users.length === 1) {
-          localStorage.setItem(this.LOGGED_USER_KEY, JSON.stringify(users[0]));
+        if (users.length > 0) {
+          localStorage.setItem(USER_KEY, JSON.stringify(users[0]));
+          localStorage.setItem(TOKEN_KEY, 'fake-jwt-token'); // bạn có thể sửa thành accessToken nếu dùng json-server-auth
           return true;
+        } else {
+          return false;
         }
-        return false;
       })
     );
   }
 
-  logout(): void {
-    localStorage.removeItem(this.LOGGED_USER_KEY);
-    this.router.navigate(['/login']);
+
+  getUserByEmail(email: string): Observable<any> {
+    return this.http.get<any[]>(`${API}/users?email=${email}`).pipe(
+      tap(users => {
+        if (users.length) {
+          localStorage.setItem(USER_KEY, JSON.stringify(users[0]));
+        }
+      })
+    );
   }
 
-  getCurrentUser(): User | null {
-    const user = localStorage.getItem(this.LOGGED_USER_KEY);
-    return user ? JSON.parse(user) : null;
+  getCurrentUser(): any {
+    const userStr = localStorage.getItem(USER_KEY);
+    return userStr ? JSON.parse(userStr) : null;
   }
 
   isLoggedIn(): boolean {
-    return !!this.getCurrentUser();
+    return !!localStorage.getItem(TOKEN_KEY);
+  }
+
+  logout() {
+    localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem(USER_KEY);
+    this.currentUserSubject.next(null); // <-- cập nhật trạng thái
   }
 }

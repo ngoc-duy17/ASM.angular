@@ -14,25 +14,20 @@ import { AuthService } from '../../../services/server';
 export class Register {
   email = '';
   password = '';
-  confirmPassword = '';
-  role: 'client' | 'admin' = 'client';
+  role = 'client';
 
   constructor(private auth: AuthService, private router: Router) { }
 
   onRegister() {
-    if (this.password !== this.confirmPassword) {
-      alert('⚠️ Mật khẩu không trùng khớp');
-      return;
-    }
+    const newUser = {
+      email: this.email,
+      password: this.password,
+      role: this.role
+    };
 
-    this.auth.register({ email: this.email, password: this.password, role: this.role })
-      .subscribe(success => {
-        if (success) {
-          alert('Đăng ký thành công');
-          this.router.navigate(['/login']);
-        } else {
-          alert('❌ Email đã tồn tại');
-        }
-      });
+    this.auth.register(newUser).subscribe(() => {
+      alert('Đăng ký thành công!');
+      this.router.navigate(['/login']);
+    });
   }
 }

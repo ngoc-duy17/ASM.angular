@@ -19,7 +19,6 @@ export const routes: Routes = [
   {
     path: '',
     component: ClientLayout,
-    canActivate: [ClientGuard],
     children: [
       { path: '', component: Home },
       { path: 'products', component: List },
@@ -38,7 +37,6 @@ export const routes: Routes = [
   {
     path: 'admin',
     component: AdminLayout,
-    canActivate: [AdminGuard],
     children: [
       { path: 'products', component: ProductList },
       { path: 'products/add', component: ProductAdd },

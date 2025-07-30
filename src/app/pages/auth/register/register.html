@@ -1,19 +1,11 @@
-<div class="register-container">
-  <h2>Đăng ký tài khoản</h2>
-  <form (ngSubmit)="onRegister()" class="register-form">
-    <div class="form-group">
-      <input type="email" [(ngModel)]="email" name="email" placeholder="Email" required />
-    </div>
+<form (ngSubmit)="onRegister()">
+  <input [(ngModel)]="email" name="email" placeholder="Email" required />
+  <input [(ngModel)]="password" name="password" type="password" placeholder="Mật khẩu" required />
 
-    <div class="form-group">
-      <input type="password" [(ngModel)]="password" name="password" placeholder="Mật khẩu" required />
-    </div>
+  <select [(ngModel)]="role" name="role">
+    <option value="client">Khách hàng</option>
+    <option value="admin">Quản trị viên</option>
+  </select>
 
-    <div class="form-group">
-      <input type="password" [(ngModel)]="confirmPassword" name="confirmPassword" placeholder="Nhập lại mật khẩu"
-        required />
-    </div>
-
-    <button type="submit" class="btn-register">Đăng ký</button>
-  </form>
-</div>
+  <button type="submit">Đăng ký</button>
+</form>
