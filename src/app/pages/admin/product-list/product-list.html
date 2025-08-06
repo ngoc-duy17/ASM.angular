@@ -1,52 +1,64 @@
-<div class="container mt-4">
-  <h2 class="text-center mb-4">Danh sách giày</h2>
+<div class="container my-5">
+  <h2 class="text-center mb-4 text-primary">📦 Danh sách sản phẩm giày</h2>
 
-  <div class="mb-3">
-    <input type="text" class="form-control" placeholder="Tìm kiếm theo tên..." [(ngModel)]="filterText" />
+  <!-- Tìm kiếm -->
+  <div class="row justify-content-center mb-4">
+    <div class="col-md-6">
+      <input type="text" class="form-control shadow-sm" placeholder="🔍 Tìm kiếm theo tên sản phẩm..."
+        [(ngModel)]="filterText" />
+    </div>
   </div>
 
+  <!-- Bảng sản phẩm -->
   <div *ngIf="filterProducts().length > 0; else noProducts">
     <div class="table-responsive">
-      <table class="table table-bordered table-hover text-center align-middle">
-        <thead class="table-dark">
+      <table class="table table-bordered table-hover align-middle text-center shadow-sm">
+        <thead class="table-primary text-uppercase">
           <tr>
-            <th>ID</th>
+            <th>#ID</th>
             <th>Hình ảnh</th>
             <th>Tên giày</th>
-            <th>Giá</th>
+            <th>Giá bán</th>
+            <th>Danh mục</th>
             <th>Trạng thái</th>
-            <th>Hành động</th>
+            <th>Thao tác</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let product of filterProducts()">
             <td>{{ product.id }}</td>
             <td>
-              <img [src]="product.imageUrl" alt="{{ product.name }}" width="80" height="80" class="img-thumbnail" />
-
+              <img [src]="product.imageUrl" alt="{{ product.name }}" width="70" height="70"
+                class="rounded shadow-sm border" />
             </td>
             <td class="text-uppercase fw-bold">{{ product.name }}</td>
             <td class="text-danger fw-semibold">
               {{ product.price | currency: 'VND' }}
             </td>
+            <td class="text-info fw-semibold">{{ getCategoryName(product.category) || 'Không rõ' }}</td>
+
             <td>
-              <span class="badge" [ngClass]="{
+              <span class="badge px-3 py-2" [ngClass]="{
                   'bg-success': product.inStock,
-                  'bg-danger': !product.inStock
+                  'bg-secondary': !product.inStock
                 }">
                 {{ product.inStock ? 'Còn hàng' : 'Hết hàng' }}
               </span>
             </td>
             <td>
-              <button class="btn btn-sm btn-danger" (click)="deleteProduct(product.id)">
-                Xóa
-              </button>
-              <button class="btn btn-sm btn-warning me-2" [routerLink]="['/admin/products', product.id, 'edit']">
-                Sửa
-              </button>
-              <a class="btn btn-info btn-sm me-2" [routerLink]="['/admin/products', product.id, 'detail']">
-                Chi tiết
-              </a>
+              <div class="d-flex justify-content-center gap-2 flex-wrap">
+                <!-- <a class="btn btn-sm btn-info text-white" [routerLink]="['/admin/products', product.id, 'detail']"
+                  title="Xem chi tiết">
+                  <i class="bi bi-eye"></i> Chi tiết
+                </a> -->
+                <button class="btn btn-sm btn-warning text-white" [routerLink]="['/admin/products', product.id, 'edit']"
+                  title="Chỉnh sửa">
+                  <i class="bi bi-pencil-square"></i> Sửa
+                </button>
+                <button class="btn btn-sm btn-danger" (click)="delete(product.id)" title="Xóa sản phẩm">
+                  <i class="bi bi-trash"></i> Xóa
+                </button>
+              </div>
             </td>
           </tr>
         </tbody>
@@ -54,7 +66,10 @@
     </div>
   </div>
 
+  <!-- Không có sản phẩm -->
   <ng-template #noProducts>
-    <p class="text-center text-muted">Không có sản phẩm phù hợp.</p>
+    <div class="alert alert-warning text-center">
+      Không có sản phẩm phù hợp với tìm kiếm.
+    </div>
   </ng-template>
 </div>

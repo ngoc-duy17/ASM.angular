@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductService } from '../../../services/product';
-import { Product } from '../../../models/product';
+import { Product, ProductService } from '../../../services/product';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
@@ -18,7 +17,7 @@ export class Home implements OnInit {
   ngOnInit(): void {
     this.productService.getAll().subscribe({
       next: (data: Product[]) => {
-        this.products = data.slice(0, 4); // Lấy 4 sản phẩm mới
+        this.products = data; // Lấy 4 sản phẩm mới
       },
       error: (err) => {
         console.error('Lỗi khi tải sản phẩm:', err);

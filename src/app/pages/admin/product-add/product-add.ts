@@ -1,52 +1,52 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormsModule, NgForm } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { Product } from '../../../models/product';
 import { Router } from '@angular/router';
+import { ProductForm, ProductService } from '../../../services/product';
 
 @Component({
   selector: 'app-product-add',
+  standalone: true,
   imports: [FormsModule, CommonModule, HttpClientModule],
   templateUrl: './product-add.html',
   styleUrl: './product-add.css'
 })
-export class ProductAdd {
-  constructor(private http: HttpClient, private router: Router) { }
-
-  product: Omit<Product, 'id'> = {
+export class ProductAdd implements OnInit {
+  product: ProductForm = {
     name: '',
     imageUrl: '',
     price: 0,
     category: '',
+    description: '',
     inStock: true
   };
 
-  onSubmit() {
+  categories: any[] = [];
 
-    this.http.post<Product>('http://localhost:3000/products', this.product).subscribe({
-      next: (res) => {
-        alert('Sản phẩm đã được thêm!');
-        this.resetForm();
-        this.router.navigate(['/admin/products']);
+  constructor(
+    private productService: ProductService,
+    private http: HttpClient,
+    private router: Router
+  ) { }
 
-      },
-      error: (err) => {
-        console.error('Lỗi khi thêm sản phẩm:', err);
-        alert('Không thể thêm sản phẩm. Vui lòng thử lại.');
-      }
+  ngOnInit(): void {
+    this.http.get<any[]>('http://localhost:3000/categories').subscribe(data => {
+      this.categories = data;
     });
   }
 
-
-
-  resetForm() {
-    this.product = {
-      name: '',
-      imageUrl: '',
-      price: 0,
-      category: '',
-      inStock: true
-    };
+  submitForm(form: NgForm): void {
+    if (form.valid) {
+      this.productService.create(this.product).subscribe({
+        next: () => {
+          alert('Thêm sản phẩm thành công');
+          this.router.navigate(['admin/products']);
+        },
+        error: () => {
+          alert('Thêm sản phẩm thất bại');
+        }
+      });
+    }
   }
 }

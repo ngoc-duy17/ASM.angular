@@ -10,9 +10,10 @@
     <ng-template #guest>
       <p>🔐 Bạn chưa đăng nhập</p>
       <a class="btn btn-sm btn-light mb-3" routerLink="/admin/login">Đăng nhập</a>
+      <a class="btn btn-sm btn-light mb-3" routerLink="/admin/register">Đăng kí</a>
     </ng-template>
 
-    <ul class="nav flex-column">
+    <ul *ngIf="user" class="nav flex-column">
       <li class="nav-item">
         <a class="nav-link text-white" routerLink="/dashboard">Dashboard</a>
       </li>
@@ -29,5 +30,6 @@
         <a class="nav-link text-white" routerLink="/admin/orders">Orders</a>
       </li>
     </ul>
+
   </div>
 </div>

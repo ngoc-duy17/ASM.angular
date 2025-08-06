@@ -1,47 +1,42 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Product } from '../models/product';
-import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+export interface Product {
+  id: number | string;
+  name: string;
+  imageUrl: string;
+  price: number;
+  category: string;
+  description: string;
+  inStock: boolean;
+}
+
+export type ProductForm = Omit<Product, 'id'>;
 
 @Injectable({ providedIn: 'root' })
 export class ProductService {
-  private api = 'http://localhost:3000/products';
+  private apiUrl = 'http://localhost:3000/products'; // THÊM dòng này để dùng chung URL
 
   constructor(private http: HttpClient) { }
-  // Lấy danh sách sản phẩm
+
   getAll(): Observable<Product[]> {
-    return this.http.get<Product[]>(this.api).pipe(catchError(this.handleError));
+    return this.http.get<Product[]>(this.apiUrl);
   }
-  // Lấy sản phẩm theo id
-  getById(id: number): Observable<Product> {
-    return this.http.get<Product>(`${this.api}/${id}`).pipe(
-      map(product => ({ ...product, id: +product.id })) // ép id về number
-    );
+
+  getById(id: number | string): Observable<Product> {
+    return this.http.get<Product>(`${this.apiUrl}/${id}`);
   }
-  // Thêm sản phẩm
-  create(product: Product): Observable<Product> {
-    return this.http.post<Product>(this.api, product).pipe(catchError(this.handleError));
+
+  create(product: ProductForm): Observable<Product> {
+    return this.http.post<Product>(this.apiUrl, product);
   }
-  // Cập nhật sản phẩm
+
   update(product: Product): Observable<Product> {
-    return this.http.put<Product>(`${this.api}/${product.id}`, product).pipe(catchError(this.handleError));
+    return this.http.put<Product>(`${this.apiUrl}/${product.id}`, product);
   }
-  // Xóa sản phẩm
-  delete(id: number): Observable<any> {
-    return this.http.delete(`${this.api}/${id}`).pipe(catchError(this.handleError));
-  }
-  // Xử lý lỗi HTTP
-  private handleError(error: HttpErrorResponse): Observable<never> {
-    let errorMessage = "An unknown error occurred!";
-    if (error.error instanceof ErrorEvent) {
-      // Lỗi phía client
-      errorMessage = `Error: ${error.error.message}`;
-    } else {
-      // Lỗi phía server
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-    }
-    console.error(errorMessage);
-    return throwError(() => new Error(errorMessage));
+
+  delete(id: number | string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }

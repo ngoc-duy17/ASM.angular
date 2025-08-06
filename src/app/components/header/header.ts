@@ -1,28 +1,41 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { AuthService } from '../../services/server';
+import { Component } from '@angular/core';
+import { RouterLink, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/server';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, CommonModule],
+  imports: [RouterLink, RouterModule, CommonModule],
   templateUrl: './header.html',
-  styleUrl: './header.css'
+  styleUrls: ['./header.css'] // ✅ dùng đúng "styleUrls"
 })
-export class Header implements OnInit {
+export class Header {
   dropdownOpen = false;
-  currentUserEmail = '';
 
-  constructor(public auth: AuthService, private router: Router) { }
+  constructor(public auth: AuthService) { }
 
-  ngOnInit() {
-    const user = this.auth.getCurrentUser();
-    this.currentUserEmail = user?.email || '';
+  get isLoggedIn(): boolean {
+    return this.auth.isAdminLoggedIn() || this.auth.isClientLoggedIn();
   }
 
-  logout(): void {
-    this.auth.logout();
-    this.currentUserEmail = ''; // cập nhật lại view sau khi logout
+  get currentUserEmail(): string | null {
+    if (this.auth.isAdminLoggedIn()) {
+      return this.auth.getAdminUser()?.email ?? null;
+    }
+    if (this.auth.isClientLoggedIn()) {
+      return this.auth.getClientUser()?.email ?? null;
+    }
+    return null;
+  }
+
+  logout() {
+    if (this.auth.isAdminLoggedIn()) {
+      this.auth.logoutAdmin();
+    }
+    if (this.auth.isClientLoggedIn()) {
+      this.auth.logoutClient();
+    }
+    location.reload(); // hoặc this.router.navigate(['/']);
   }
 }

@@ -1,18 +1,42 @@
 <div class="container mt-4">
   <h2 class="text-center mb-4 fw-bold text-primary">📂 Danh sách danh mục</h2>
 
+  <!-- Form thêm danh mục -->
+  <div class="mb-4 d-flex gap-2">
+    <input [(ngModel)]="newCategoryName" class="form-control" placeholder="Nhập tên danh mục mới...">
+    <button (click)="addCategory()" class="btn btn-primary">Thêm</button>
+  </div>
+
   <div class="table-responsive">
     <table class="table table-hover table-bordered shadow-sm">
       <thead class="table-primary text-center">
         <tr>
           <th style="width: 80px;">#ID</th>
           <th>Tên danh mục</th>
+          <th style="width: 160px;">Thao tác</th>
         </tr>
       </thead>
       <tbody class="align-middle">
         <tr *ngFor="let category of categories">
           <td class="text-center fw-semibold text-secondary">{{ category.id }}</td>
-          <td class="text-dark">{{ category.name }}</td>
+
+          <td>
+            <span *ngIf="editingCategory?.id !== category.id">{{ category.name }}</span>
+            <input *ngIf="editingCategory?.id === category.id" [(ngModel)]="editingCategory.name"
+              class="form-control form-control-sm" />
+          </td>
+
+          <td class="text-center">
+            <ng-container *ngIf="editingCategory?.id === category.id; else actionButtons">
+              <button class="btn btn-success btn-sm me-1" (click)="saveEdit()">Lưu</button>
+              <button class="btn btn-secondary btn-sm" (click)="cancelEdit()">Hủy</button>
+            </ng-container>
+
+            <ng-template #actionButtons>
+              <button class="btn btn-warning btn-sm me-1" (click)="startEdit(category)">Sửa</button>
+              <button class="btn btn-danger btn-sm" (click)="deleteCategory(category.id)">Xóa</button>
+            </ng-template>
+          </td>
         </tr>
       </tbody>
     </table>

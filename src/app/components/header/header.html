@@ -31,7 +31,7 @@
         </li>
 
         <!-- Nếu đã đăng nhập -->
-        <ng-container *ngIf="auth.isLoggedIn(); else guestLinks">
+        <ng-container *ngIf="isLoggedIn; else guestLinks">
           <li class="nav-item dropdown" [class.show]="dropdownOpen" (mouseenter)="dropdownOpen = true"
             (mouseleave)="dropdownOpen = false">
             <a class="nav-link dropdown-toggle" href="#" role="button">

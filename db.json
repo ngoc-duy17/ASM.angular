@@ -1,38 +1,104 @@
 {
   "products": [
     {
-      "id": "5276",
-      "name": "ngoczuyy",
+      "id": "1",
+      "name": "fffff",
       "imageUrl": "https://randomuser.me/api/portraits/men/32.jpg",
-      "price": 5,
-      "category": "",
+      "price": 6,
+      "categoryId": "1",
+      "description": "bbb",
+      "inStock": true,
+      "category": "2"
+    },
+    {
+      "id": "2",
+      "name": "Nguyễn Ngọc Duy",
+      "imageUrl": "https://randomuser.me/api/portraits/men/32.jpg",
+      "price": 11,
+      "categoryId": 1,
+      "description": "",
       "inStock": true
     },
     {
-      "id": "d65c",
-      "name": "abc",
+      "id": "3",
+      "name": "fffff",
       "imageUrl": "https://randomuser.me/api/portraits/men/32.jpg",
-      "price": 5000000,
-      "category": "",
-      "inStock": "false"
+      "price": 1,
+      "categoryId": 1,
+      "description": "",
+      "inStock": true
     },
     {
-      "id": "2d91",
-      "name": "bbb",
+      "id": "4",
+      "name": "Nguyễn Ngọc Duy",
       "imageUrl": "https://randomuser.me/api/portraits/men/32.jpg",
-      "price": 12300000,
-      "category": "",
-      "inStock": "true"
+      "price": 333,
+      "categoryId": "1",
+      "description": "",
+      "inStock": true
+    },
+    {
+      "id": "5",
+      "name": "duy",
+      "imageUrl": "https://randomuser.me/api/portraits/men/32.jpg",
+      "price": 3333,
+      "categoryId": "1",
+      "description": "",
+      "inStock": true
+    },
+    {
+      "id": "ed9a",
+      "name": "fffff",
+      "imageUrl": "https://randomuser.me/api/portraits/men/32.jpg",
+      "price": 12,
+      "categoryId": "1",
+      "description": "",
+      "inStock": true
+    },
+    {
+      "id": "50e2",
+      "name": "3333",
+      "imageUrl": "https://randomuser.me/api/portraits/men/32.jpg",
+      "price": 3333,
+      "categoryId": "1",
+      "description": "",
+      "inStock": true
+    },
+    {
+      "name": "fffff",
+      "imageUrl": "https://randomuser.me/api/portraits/women/44.jpg",
+      "price": 1222,
+      "category": "fc72",
+      "description": "",
+      "inStock": true,
+      "id": "uq89rhJ"
+    },
+    {
+      "name": "Nguyễn Ngọc Duy",
+      "imageUrl": "https://randomuser.me/api/portraits/men/32.jpg",
+      "price": 23,
+      "category": "1",
+      "description": "",
+      "inStock": true,
+      "id": "AkMPEnh"
     }
   ],
   "categories": [
     {
       "id": "1",
-      "name": "Converse"
+      "name": "Giày chạy bộ"
     },
     {
       "id": "2",
-      "name": "Adidas"
+      "name": "Giày bóng đá"
+    },
+    {
+      "id": "3",
+      "name": "aaa"
+    },
+    {
+      "id": "fc72",
+      "name": "yt"
     }
   ],
   "brands": [
@@ -47,16 +113,9 @@
   ],
   "users": [
     {
-      "email": "admin@gmail.com",
-      "password": "123456",
-      "role": "admin",
-      "id": 1
-    },
-    {
-      "email": "client@gmail.com",
-      "password": "123456",
-      "role": "client",
-      "id": 2
+      "email": "xyz@gmail.com",
+      "password": "$2a$10$Zz91Inqn3qYtPmcYu2yL2e6rCAXNL18ySLjrPVkylnPoboBmFtV5m",
+      "id": "VOHzNcb"
     }
   ]
 }

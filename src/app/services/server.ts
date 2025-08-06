@@ -1,60 +1,108 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { tap, catchError, map } from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {
+  BehaviorSubject,
+  Observable,
+  tap,
+  catchError,
+  throwError,
+} from 'rxjs';
 
-const API = 'http://localhost:3000';
-const TOKEN_KEY = 'token';
-const USER_KEY = 'user';
+export interface AuthResponse {
+  accessToken: string;
+  user: {
+    email: string;
+    id: number;
+  };
+}
+
+export interface User {
+  id: number;
+  email: string;
+}
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+  private apiUrl = 'http://localhost:3000';
+
+  private adminUserSubject = new BehaviorSubject<User | null>(null);
+  private clientUserSubject = new BehaviorSubject<User | null>(null);
+
+  adminUser$ = this.adminUserSubject.asObservable();
+  clientUser$ = this.clientUserSubject.asObservable();
+
   constructor(private http: HttpClient) { }
-  private currentUserSubject = new BehaviorSubject<any>(this.getCurrentUser());
-  currentUser$ = this.currentUserSubject.asObservable(); // <-- component khác có thể subscribe
 
-
-  register(userData: any): Observable<any> {
-    return this.http.post(`${API}/register`, userData);
+  // ==== Đăng ký / đăng nhập chung ====
+  signup(email: string, password: string): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.apiUrl}/register`, { email, password }).pipe(
+      tap(response => {
+        localStorage.setItem('clientToken', response.accessToken);
+        this.clientUserSubject.next(response.user);
+      }),
+      catchError(error => throwError(() => new Error(error.error?.message || 'Đăng ký thất bại')))
+    );
   }
 
-  login(email: string, password: string): Observable<boolean> {
-    return this.http.get<any[]>(`${API}/users?email=${email}&password=${password}`).pipe(
-      map(users => {
-        if (users.length > 0) {
-          localStorage.setItem(USER_KEY, JSON.stringify(users[0]));
-          localStorage.setItem(TOKEN_KEY, 'fake-jwt-token'); // bạn có thể sửa thành accessToken nếu dùng json-server-auth
-          return true;
+  login(email: string, password: string): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.apiUrl}/login`, { email, password }).pipe(
+      tap(response => {
+        localStorage.setItem('adminToken', response.accessToken);
+        this.adminUserSubject.next(response.user);
+      }),
+      catchError(error => throwError(() => new Error(error.error?.message || 'Đăng nhập thất bại')))
+    );
+  }
+
+  // ==== Client ====
+  getClientUser(): User | null {
+    return this.clientUserSubject.value;
+  }
+
+  isClientLoggedIn(): boolean {
+    return !!localStorage.getItem('clientToken');
+  }
+
+  logoutClient(): void {
+    localStorage.removeItem('clientToken');
+    this.clientUserSubject.next(null);
+  }
+
+  // ==== Admin ====
+  getAdminUser(): User | null {
+    return this.adminUserSubject.value;
+  }
+
+  isAdminLoggedIn(): boolean {
+    return !!localStorage.getItem('adminToken');
+  }
+
+  logoutAdmin(): void {
+    localStorage.removeItem('adminToken');
+    this.adminUserSubject.next(null);
+  }
+
+  // ==== Lấy thông tin user theo token ====
+  fetchUser(tokenType: 'admin' | 'client'): void {
+    const token = localStorage.getItem(tokenType === 'admin' ? 'adminToken' : 'clientToken');
+    if (!token) return;
+
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    this.http.get<User>(`${this.apiUrl}/users/me`, { headers }).subscribe({
+      next: (user) => {
+        if (tokenType === 'admin') {
+          this.adminUserSubject.next(user);
         } else {
-          return false;
+          this.clientUserSubject.next(user);
         }
-      })
-    );
-  }
-
-
-  getUserByEmail(email: string): Observable<any> {
-    return this.http.get<any[]>(`${API}/users?email=${email}`).pipe(
-      tap(users => {
-        if (users.length) {
-          localStorage.setItem(USER_KEY, JSON.stringify(users[0]));
+      },
+      error: () => {
+        if (tokenType === 'admin') {
+          this.logoutAdmin();
+        } else {
+          this.logoutClient();
         }
-      })
-    );
-  }
-
-  getCurrentUser(): any {
-    const userStr = localStorage.getItem(USER_KEY);
-    return userStr ? JSON.parse(userStr) : null;
-  }
-
-  isLoggedIn(): boolean {
-    return !!localStorage.getItem(TOKEN_KEY);
-  }
-
-  logout() {
-    localStorage.removeItem(TOKEN_KEY);
-    localStorage.removeItem(USER_KEY);
-    this.currentUserSubject.next(null); // <-- cập nhật trạng thái
+      }
+    });
   }
 }

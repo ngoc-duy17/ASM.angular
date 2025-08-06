@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Product } from '../../../models/product';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
+import { Product, ProductService } from '../../../services/product';
+import { Category, CategoryService } from '../../../services/category';
+
 
 @Component({
   selector: 'app-product-list',
@@ -13,45 +15,49 @@ import { RouterLink } from '@angular/router';
 })
 export class ProductList implements OnInit {
   products: Product[] = [];
-  filterText = '';
+  categories: Category[] = [];
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private productService: ProductService,
+    private categoryService: CategoryService
+  ) { }
 
   ngOnInit(): void {
-    this.loadProducts();
+    this.getProducts();
+    this.getCategories();
   }
 
-  loadProducts(): void {
-    this.http.get<Product[]>('http://localhost:3000/products').subscribe({
-      next: (data) => {
-        this.products = data;
-      },
-      error: (error) => {
-        console.error('Lỗi khi tải sản phẩm:', error);
-        alert('Không thể tải danh sách sản phẩm. Vui lòng thử lại!');
-      },
+  getProducts(): void {
+    this.productService.getAll().subscribe(data => {
+      this.products = data;
     });
   }
 
-  filterProducts(): Product[] {
-    return this.products.filter((product) =>
-      (product.name || '').toLowerCase().includes(this.filterText.toLowerCase())
-    );
+  getCategories(): void {
+    this.categoryService.getAll().subscribe(data => {
+      this.categories = data;
+    });
   }
 
-  deleteProduct(id: number): void {
-    if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) {
-      this.http.delete(`http://localhost:3000/products/${id}`).subscribe({
-        next: () => {
-          this.products = this.products.filter((product) => product.id !== id);
-          alert('Sản phẩm đã được xóa!');
-        },
-        error: (error) => {
-          console.error('Lỗi khi xóa sản phẩm:', error);
-          alert('Không thể xóa sản phẩm. Vui lòng thử lại!');
-        },
+  getCategoryName(categoryId: number | string): string {
+    const found = this.categories.find(c => c.id === categoryId);
+    return found ? found.name : 'Không rõ';
+  }
+
+  delete(id: number | string): void {
+    if (confirm('Bạn có chắc chắn muốn xóa?')) {
+      this.productService.delete(id).subscribe(() => {
+        this.products = this.products.filter(p => p.id !== id);
       });
     }
+  }
+
+  filterText = '';
+
+  filterProducts(): Product[] {
+    return this.products.filter(product =>
+      product.name.toLowerCase().includes(this.filterText.toLowerCase())
+    );
   }
 
 }

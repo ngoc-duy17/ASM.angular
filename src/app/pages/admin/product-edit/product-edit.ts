@@ -1,62 +1,55 @@
-import { CommonModule } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { Product } from '../../../models/product';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ProductService, Product } from '../../../services/product';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { Category, CategoryService } from '../../../services/category';
 
 @Component({
   selector: 'app-product-edit',
-  imports: [FormsModule, CommonModule, HttpClientModule],
+  standalone: true,
+  imports: [FormsModule, CommonModule],
   templateUrl: './product-edit.html',
-  styleUrl: './product-edit.css'
 })
-export class ProductEdit {
+export class ProductEdit implements OnInit {
   product: Product = {
-    id: 1,
+    id: 0,
     name: '',
-    imageUrl: '',
     price: 0,
+    imageUrl: '',
     category: '',
-    inStock: true
+    inStock: true,
+    description: '' // nếu bạn dùng field này
   };
 
+  categories: Category[] = [];
+
   constructor(
-    private http: HttpClient,
-    private router: Router,
-    private route: ActivatedRoute
+    private productService: ProductService,
+    private categoryService: CategoryService,
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-      this.http.get<Product>(`http://localhost:3000/products/${id}`).subscribe({
-        next: (data) => {
-          this.product = data;
-        },
-        error: (err) => {
-          console.error('Lỗi khi tải sản phẩm:', err);
-          alert('Không thể tải thông tin sản phẩm.');
-        }
+      this.productService.getById(id).subscribe({
+        next: (data) => (this.product = data),
+        error: (err) => console.error('Lỗi lấy sản phẩm:', err)
       });
     }
-  }
 
-  onSubmit() {
-    this.http.put<Product>(`http://localhost:3000/products/${this.product.id}`, this.product).subscribe({
-      next: () => {
-        alert('Sản phẩm đã được cập nhật!');
-        this.router.navigate(['/admin/products']);
-      },
-      error: (err) => {
-        console.error('Lỗi khi cập nhật sản phẩm:', err);
-        alert('Không thể cập nhật sản phẩm.');
-      }
+    // ✅ Lấy danh sách danh mục
+    this.categoryService.getAll().subscribe({
+      next: (data) => (this.categories = data),
+      error: (err) => console.error('Lỗi lấy danh mục:', err)
     });
   }
 
-  resetForm() {
-    this.ngOnInit(); // Load lại dữ liệu gốc từ server
+  onSubmit() {
+    this.productService.update(this.product).subscribe(() => {
+      this.router.navigate(['/admin/products']);
+    });
   }
-
 }
